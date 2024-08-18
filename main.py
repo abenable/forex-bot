@@ -1,7 +1,7 @@
 # main.py
-from src import account, session, trading_strategy
-from src.trading import watchlist
 import time
+from config import session
+from src.trading import watchlist
 
 def main():
     try:
