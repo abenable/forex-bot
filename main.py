@@ -1,7 +1,7 @@
 # main.py
 import time
 from config import session
-from src.trading import watchlist
+from src.trading import watchlist, positions
 
 def main():
     try:
@@ -13,9 +13,9 @@ def main():
             if session_creation_time is None or (current_time - session_creation_time) > 240:  # Create session every 4 minutes
                 cst, x_security_token = session.create_session()
                 session_creation_time = current_time
-
-
-            watchlist.get_watchlist(69124495674647, cst, x_security_token)
+                
+            positions.get_all_postions(cst, x_security_token)
+            # watchlist.get_watchlist(69124495674647, cst, x_security_token)
 
 
     except Exception as e:
