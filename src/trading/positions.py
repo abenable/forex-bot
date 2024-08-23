@@ -1,20 +1,56 @@
+import os
+import time
+from turtle import position
 import requests
 from config.config import BASE_URL
 
+def clear_console():
+    # Clear the console screen
+    os.system('cls' if os.name == 'nt' else 'clear')
+
 def get_all_postions(cst, x_security_token):
-    url = f"{BASE_URL}/postions"
+    url = f"{BASE_URL}/positions"
     headers = {
         "cst": cst,
         "x-security-token": x_security_token,
         "Content-Type": "application/json"
     }
+    
+    while True:
+        response = requests.get(url, headers=headers)
 
-    response = requests.get(url, headers=headers)
+        if response.status_code == 200:
+            data = response.json()
+            positions = data.get('positions', [])
 
-    if response.status_code == 200:
-        return response.json()
-    else:
-        raise Exception(f"Failed to retrieve account info: {response.status_code} {response.text}")
+            # Clear the console before printing new data
+            clear_console()
+
+            # Print the header
+            print(f"{'Pos':<7} {'Symbol':<10} {'Size':<10} {'Direction':<10} {'OpenPrice':<10} {'TakeProfit':<10} {'StopLoss':<10} {'Profit/Loss':<10}")
+            print("-" * 88)
+
+            # Print each item in the formatted table
+            for item in positions:
+                if item:  # Check if item is not null
+                    position = item.get('position', {})
+                    market = item.get('market', {})
+                    
+                    dealId = positions.index(item) + 1
+                    symbol = market.get('symbol', 'N/A')
+                    size = position.get('size', 'N/A')
+                    direction = position.get('direction', 'N/A')
+                    openPrice = position.get('level', 'N/A')
+                    tp = position.get('profitLevel', 'N/A')
+                    sl = position.get('stopLevel', 'N/A')
+                    P_L = position.get('upl', 'N/A')
+                    
+                    print(f"{dealId:<7} {symbol:<10} {size:<10} {direction:<10} {openPrice:<10} {tp:<10} {sl:<10} {P_L:<10}")
+
+            # Wait before updating the table again
+            time.sleep(1)
+        else:
+            raise Exception(f"Failed to retrieve account info: {response.status_code} {response.text}")
     
 def get_postion_byId(id, cst, x_security_token):
     url = f"{BASE_URL}/postions/{id}"
