@@ -28,7 +28,7 @@ def get_all_postions(cst, x_security_token):
 
             # Print the header
             print(f"{'Pos':<7} {'Symbol':<10} {'Size':<10} {'Direction':<10} {'OpenPrice':<10} {'TakeProfit':<10} {'StopLoss':<10} {'Profit/Loss':<10}")
-            print("-" * 88)
+            print("-" * 85)
 
             # Print each item in the formatted table
             for item in positions:
