@@ -1,6 +1,5 @@
 import os
 import time
-from turtle import position
 import requests
 from config.config import BASE_URL
 
