@@ -17,6 +17,17 @@ def get_account_info(cst, x_security_token):
     else:
         raise Exception(f"Failed to retrieve account info: {response.status_code} {response.text}")
     
+def print_account_info(account_data):
+    account = account_data.get('accounts', [])[0]
+    account_name = account.get('accountName')
+    
+    # Details to print
+    balance_details = ['balance', 'profitLoss', 'deposit', 'available']
+
+    print(f"AccountName: {account_name}")
+    for detail in balance_details:
+        print(f"{detail.capitalize()}: {account.get('balance', {}).get(detail)}")
+
 def get_account_activity_history(cst, x_security_token):
     url = f"{BASE_URL}/history/activity"
     headers = {
