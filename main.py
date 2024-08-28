@@ -39,8 +39,10 @@ def main_loop():
 
             # Print positions and watchlist data
             positions.print_all_positions(pos_data)
+
             print('\n')
             watchlist.print_watchlist(watchlist_data)
+            
         except Exception as e:
             # Catch and display any exceptions without stopping the loop
             print(f"An error occurred: {e}")
@@ -49,10 +51,15 @@ def main_loop():
         time.sleep(1)
 
 def main():
-    try:
-        main_loop()
-    except KeyboardInterrupt:
-        print("Program terminated by user.")
+    while True:
+        try:
+            main_loop()
+        except KeyboardInterrupt:
+            print("Program terminated by user.")
+            break
+        except Exception as e:
+            print(f"Main loop crashed with error: {e}. Restarting in 5 seconds...")
+            time.sleep(5)  # Wait before restarting
 
 if __name__ == "__main__":
     main()
