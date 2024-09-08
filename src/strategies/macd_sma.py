@@ -2,6 +2,7 @@ import pandas as pd
 import yfinance as yf
 from ta.utils import dropna
 from ta.trend import MACD, EMAIndicator, SMAIndicator
+import time
 
 # Load and preprocess data
 def preprocess_data():
@@ -58,10 +59,18 @@ def trading_strategy(data):
 
     return data
 
+# Main function to run the entire process
+def main():
+    while True:
+        try:
+            data = preprocess_data()
+            results = trading_strategy(data)
+            # Do something with results if needed
+            break  # Exit loop if successful
+        except Exception as e:
+            print(f"An error occurred: {e}. Restarting in 5 seconds...")
+            time.sleep(5)
+
 # Run the backtest
 if __name__ == "__main__":
-    data = preprocess_data()
-    results = trading_strategy(data)
-
-
-
+    main()
